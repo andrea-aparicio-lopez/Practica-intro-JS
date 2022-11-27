@@ -188,6 +188,68 @@ function alphabOrder(){
   console.log('Students were arranged alphabetically');
 };
 
+// 16- Mostrar por consola el alumno de la clase con las mejores notas
+// function getHighestGrade(){
+//   let bestGrade = students.map((student) => {
+//     return {
+//       name: student.name,
+//       highestGrade: student.reduce((a, b) => Math.max(a, b), -Infinity),
+//     };
+//   });
+//   let bestStudent = bestGrade.sort((a,b) => {
+//     return a.highestGrade - b.highestGrade;
+//   })[0];
+
+function bestStudent(){
+  if (students.every(student => student.examScores.length === 0)){
+    console.log('No grades registered');
+  }else{
+    let totalGrades = students.slice().map((student) => {
+      return {
+        name: student.name,
+        examScoresTotal: student.examScores.reduce((a,b) => a + b, 0)
+      };  
+    });
+    let bestStud = totalGrades.sort((a,b) => b.examScoresTotal - a.examScoresTotal)[0];
+    console.log('"' + bestStud.name + '" has the highest grades in class');
+  }
+};
+
+// 17- Mostrar por consola la nota media más alta de la clase y el nombre del alumno al que pertenece.
+function highestAvg() {  
+  if (students.every(student => student.examScores.length === 0)){
+    console.log('No grades registered');
+  }else{
+    let avgGrades = students.slice().map((student) => {
+      return{
+        name: student.name,
+        examScoresAvg: (student.examScores.reduce((a,b) => a + b, 0) / student.examScores.length)
+      };
+    });
+    let best = avgGrades.sort((a,b) => b.examScoresAvg - a.examScoresAvg)[0];
+    console.log('"' + best.name + '" has the highest average of ' + best.examScoresAvg);
+  }
+};
+
+// 18- Añadir un punto extra a cada nota existente de todos los alumnos. 
+//   La nota máxima posible es 10. Si los alumnos aún no tienen registrada ninguna nota, les pondremos un 10.
+function raiseGrades() {
+  students.forEach((student, index) => {
+    if (student.examScores.length === 0){
+      student.examScores.push(10);
+    }else{
+      student.examScores.forEach((grade, scoreIndex) => {
+        grade++;
+        if(grade >= 10){
+          grade = 10;
+        }
+        students[index].examScores[scoreIndex] = grade;
+      });      
+    };
+  })
+}
+
+
 
 
 async function run() {
@@ -255,6 +317,18 @@ async function run() {
         // Ordenar a los alumnos alfabéticamente
         alphabOrder();
         break;
+      case 16:
+        // Mostrar el alumo con mejores notas
+        bestStudent();
+        break;
+      case 17:
+        // Mostrar el alumno con la media más alta y la nota
+        highestAvg();
+        break;
+      case 18:
+        //Subir 1 punto cada nota
+        raiseGrades();
+        break;
       default:
         console.log('Introduce un número válido');
         break;
@@ -265,5 +339,3 @@ async function run() {
 }
 
 run();
-
-// 
